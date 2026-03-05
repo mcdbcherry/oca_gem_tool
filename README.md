@@ -118,20 +118,6 @@ The browser opens automatically at `http://localhost:8420/`.
 
 ## 📖 Usage
 
-### Command Line Options
-
-```text
-oca_gem_tool_engine.exe [options]
-
-Options:
-  --mode <standalone|stdio>  Operation mode (default: standalone)
-  --port, -p <port>          HTTP port (default: 8420)
-  --ws-port <port>           WebSocket port (default: HTTP port + 1)
-  --web-root, -w <path>      Web UI directory
-  --no-browser               Don't auto-open browser
-  --help, -h                 Show help
-
-```
 
 ### Operation Modes
 
@@ -150,29 +136,6 @@ Browser ←→ WS    (port 8421) ←→ oca_gem_tool_engine.exe (commands & even
 
 ```
 
----
-
-## 🧪 Test Scenarios
-
-Scenarios are JSON files that define step-by-step SECS/GEM communication sequences with expected state verification.
-
-### Built-in Scenarios
-
-| File | Description |
-| --- | --- |
-| `GEM-NORMAL-001_eng.json` | Normal flow: TCP → Select → Comm → Online → Process |
-| `GEM-NORMAL-001_jpn.json` | Same scenario in Japanese |
-| `GEM-HSMS-ERROR-001_eng.json` | Error handling: connection loss, T3 timeout, reject |
-| `GEM-HSMS-ERROR-001_jpn.json` | Same scenario in Japanese |
-
-### Running Scenarios
-
-1. Click the **Scenario** button in the header
-2. Select a built-in scenario or upload a custom JSON file
-3. Click **Run** to execute
-4. Each step shows PASS ✅ / FAIL ❌ with state comparison
-
----
 
 ## ⚙️ GEM Configuration Format
 
@@ -218,24 +181,6 @@ The tool uses a JSON format for GEM variable/report/event definitions. See `samp
 | **SEMI E5** (SECS-II) | Message encoding/decoding, Stream/Function, Data items |
 | **SEMI E30** (GEM) | Communication, Control, Process, Spooling state machines |
 
----
-
-## ❓ Troubleshooting
-
-| Problem | Solution |
-| --- | --- |
-| `launch.bat` does nothing | Verify `oca_gem_tool_engine.exe` exists in the same folder |
-| Browser doesn't open | Navigate manually to `http://localhost:8420/` |
-| Port already in use | Use a different port: `oca_gem_tool_engine.exe --port 9000` |
-| Firewall warning | Allow `oca_gem_tool_engine.exe` through Windows Firewall |
-| Engine badge shows "Stopped" | WebSocket connection failed. Check if the engine is running. |
-
----
-
-## 🔗 Links
-
-* [OCA Project Repository](https://github.com/mcdbcherry/oca)
-* [SEMI Standards](https://www.semi.org/en/standards)
 
 ---
 
