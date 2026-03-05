@@ -8,6 +8,12 @@ A browser-based interactive tool for simulating, testing, and visualizing SEMI S
 
 ---
 
+## 🎥 Demo Video
+
+[![oca gem tool Demo][(https://img.youtube.com/vi/dVsGrhBqZTw/maxresdefault.jpg)](https://youtu.be/dVsGrhBqZTw)](https://youtu.be/HYRkj6xudXE)
+
+---
+
 ## 🎯 Motivation & Background
 
 At its core, SECS/GEM communication is simply a matter of managing state transitions and string-based data exchanges. However, due to varying interpretations of the SEMI standards and their inherent vastness, engineers are often forced into overly complex implementations.
