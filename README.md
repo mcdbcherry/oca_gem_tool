@@ -10,7 +10,7 @@ A browser-based interactive tool for simulating, testing, and visualizing SEMI S
 
 ## 🎥 Demo Video
 
-[![oca gem tool Demo][(https://img.youtube.com/vi/dVsGrhBqZTw/maxresdefault.jpg)](https://youtu.be/dVsGrhBqZTw)](https://youtu.be/HYRkj6xudXE)
+[![oca gem tool Demo](https://img.youtube.com/vi/HYRkj6xudXE/maxresdefault.jpg)](https://youtu.be/HYRkj6xudXE)
 
 ---
 
