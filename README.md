@@ -1,3 +1,5 @@
+![OCA GEM Tool](oca_gem_tool_002.png)
+
 # OCA GEM Tool
 
 **SECS/GEM Communication Simulator & Testing Tool**
