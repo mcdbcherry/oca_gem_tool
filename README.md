@@ -2,11 +2,7 @@
 
 **SECS/GEM Communication Simulator & Testing Tool**
 
-A browser-based interactive tool for simulating, testing, and visualizing SEMI SECS/GEM semiconductor equipment communication protocols. Runs as a single standalone executable — no Python, Node.js, or other runtime required.
-
-![Platform](https://img.shields.io/badge/platform-Windows%2010%2F11%20(x64)-blue)
-![Standards](https://img.shields.io/badge/SEMI-E30%20%7C%20E37-green)
-![License](https://img.shields.io/badge/license-proprietary-lightgrey)
+A browser-based interactive tool for simulating, testing, and visualizing SEMI SECS/GEM semiconductor equipment communication protocols. Runs as a single standalone executable — no Node.js required.
 
 ---
 
@@ -74,14 +70,11 @@ The primary goal of this project is the **democratization of SECS/GEM**. By open
 
 ---
 
-## 📋 System Requirements
+## 📦 Requirements
 
-| Item | Requirement |
-|---|---|
-| OS | Windows 10 / 11 (64-bit) |
-| Browser | Chrome / Edge (recommended) |
-| Runtime | None (self-contained C++ binary) |
-| Ports | 8420 (HTTP) + 8421 (WebSocket), configurable |
+To use this tool, you need the following software installed on your system:
+- **Python**
+- **Microsoft Visual C++ Redistributable**
 
 ---
 
@@ -103,3 +96,158 @@ oca_gem_tool_vX.XXXX.XXXX/
 ├── scenarios/                  ← Built-in test scenarios
 ├── sample/                     ← Sample GEM configuration
 └── version.txt
+
+```
+
+```bat
+# Double-click launch.bat, or run from command line:
+oca_gem_tool_engine.exe --port 8420
+
+```
+
+The browser opens automatically at `http://localhost:8420/`.
+
+### 3. Connect
+
+1. **Start Host (Server)**: In the right panel, configure IP/Port and click "Start Server" to begin listening (Passive HSMS)
+2. **Connect Equipment (Client)**: In the left panel, set the target host/port and click "Connect" (Active HSMS)
+3. **Establish Communication**: Send Select.req → S1F13 to establish SECS/GEM communication
+4. **Observe State Transitions**: Watch the state diagrams and sync matrix update in real-time
+
+---
+
+## 📖 Usage
+
+### Command Line Options
+
+```text
+oca_gem_tool_engine.exe [options]
+
+Options:
+  --mode <standalone|stdio>  Operation mode (default: standalone)
+  --port, -p <port>          HTTP port (default: 8420)
+  --ws-port <port>           WebSocket port (default: HTTP port + 1)
+  --web-root, -w <path>      Web UI directory
+  --no-browser               Don't auto-open browser
+  --help, -h                 Show help
+
+```
+
+### Operation Modes
+
+| Mode | Description |
+| --- | --- |
+| `standalone` (default) | Built-in HTTP + WebSocket server. Browser connects directly. |
+| `stdio` | stdin/stdout JSON protocol. For integration with external systems. |
+
+### Standalone Mode Architecture
+
+```text
+Browser ←→ HTTP  (port 8420) ←→ oca_gem_tool_engine.exe (static file server)
+Browser ←→ WS    (port 8421) ←→ oca_gem_tool_engine.exe (commands & events)
+                                         |
+                              HsmsSession (TCP) ←→ GEM Equipment / Host
+
+```
+
+---
+
+## 🧪 Test Scenarios
+
+Scenarios are JSON files that define step-by-step SECS/GEM communication sequences with expected state verification.
+
+### Built-in Scenarios
+
+| File | Description |
+| --- | --- |
+| `GEM-NORMAL-001_eng.json` | Normal flow: TCP → Select → Comm → Online → Process |
+| `GEM-NORMAL-001_jpn.json` | Same scenario in Japanese |
+| `GEM-HSMS-ERROR-001_eng.json` | Error handling: connection loss, T3 timeout, reject |
+| `GEM-HSMS-ERROR-001_jpn.json` | Same scenario in Japanese |
+
+### Running Scenarios
+
+1. Click the **Scenario** button in the header
+2. Select a built-in scenario or upload a custom JSON file
+3. Click **Run** to execute
+4. Each step shows PASS ✅ / FAIL ❌ with state comparison
+
+---
+
+## ⚙️ GEM Configuration Format
+
+The tool uses a JSON format for GEM variable/report/event definitions. See `sample/gem_config.json`:
+
+```json
+{
+  "EquipmentModel": "MyEquipment",
+  "Variables": [
+    { "VID": 1001, "Name": "LotId",   "OcaTag": "Lot.Id",   "Type": "ASCII" },
+    { "VID": 1002, "Name": "WaferNo", "OcaTag": "Wafer.No", "Type": "U4" }
+  ],
+  "Reports": [
+    { "RPTID": 101, "VIDs": [1001, 1002] }
+  ],
+  "Events": [
+    { "CEID": 5001, "Name": "ProcessStart", "LinkedRPTIDs": [101], "Enabled": true }
+  ]
+}
+
+```
+
+### Supported SECS-II Data Types
+
+| Type | Description |
+| --- | --- |
+| `U1`, `U2`, `U4`, `U8` | Unsigned integer (1/2/4/8 bytes) |
+| `I1`, `I2`, `I4`, `I8` | Signed integer (1/2/4/8 bytes) |
+| `F4`, `F8` | Floating point (4/8 bytes) |
+| `ASCII` | ASCII string |
+| `Binary` | Raw binary data |
+| `Boolean` | Boolean value |
+
+
+
+---
+
+## 📚 SEMI Standards Reference
+
+| Standard | Coverage |
+| --- | --- |
+| **SEMI E37** (HSMS) | TCP transport, Select/Deselect/Linktest/Separate, Session management |
+| **SEMI E5** (SECS-II) | Message encoding/decoding, Stream/Function, Data items |
+| **SEMI E30** (GEM) | Communication, Control, Process, Spooling state machines |
+
+---
+
+## ❓ Troubleshooting
+
+| Problem | Solution |
+| --- | --- |
+| `launch.bat` does nothing | Verify `oca_gem_tool_engine.exe` exists in the same folder |
+| Browser doesn't open | Navigate manually to `http://localhost:8420/` |
+| Port already in use | Use a different port: `oca_gem_tool_engine.exe --port 9000` |
+| Firewall warning | Allow `oca_gem_tool_engine.exe` through Windows Firewall |
+| Engine badge shows "Stopped" | WebSocket connection failed. Check if the engine is running. |
+
+---
+
+## 🔗 Links
+
+* [OCA Project Repository](https://github.com/mcdbcherry/oca)
+* [SEMI Standards](https://www.semi.org/en/standards)
+
+---
+
+## 📄 License & Proprietary Notice
+
+⚠️ **License & Proprietary Notice**
+
+Copyright (c) 2016-2026 Satoshi Murakami. All Rights Reserved.
+
+This source code and related documentation are the **proprietary property** of Satoshi Murakami. Unauthorized copying, distribution, modification, or use of this file, via any medium, is strictly prohibited.
+
+**Asset Acquisition:** For inquiries regarding technology transfer or IP acquisition, please contact the author directly.
+
+Strictly Confidential.
+
